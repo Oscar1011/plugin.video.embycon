@@ -320,6 +320,14 @@ def datetime_from_string(time_string):
     local_dt.replace(microsecond=dt.microsecond)
     return local_dt
 
+def covert_to_chinese(language):
+    if language.lower() == "chi":
+        language = "中文"
+    elif language.lower() == "ch":
+        language = "中文"
+    elif language.lower() == "zh":
+        language = "中文"
+    return language
 
 def convert_size(size_bytes):
     if size_bytes == 0:

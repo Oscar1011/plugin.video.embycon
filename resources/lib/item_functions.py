@@ -11,7 +11,7 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 
-from .utils import get_art, datetime_from_string
+from .utils import get_art, datetime_from_string, covert_to_chinese
 from .simple_logging import SimpleLogging
 from .downloadutils import DownloadUtils
 from .kodi_utils import HomeWindow
@@ -233,13 +233,13 @@ def extract_item_info(item, gui_options):
                 media_info["type"] = "audio"
                 media_info["codec"] = mediaStream["Codec"]
                 media_info["channels"] = mediaStream["Channels"]
-                media_info["language"] = mediaStream["Language"]
+                media_info["language"] = covert_to_chinese(mediaStream["Language"])
                 media_info_list.append(media_info)
             if stream_type == "Subtitle":
                 item_details.subtitle_available = True
                 media_info = {}
                 media_info["type"] = "sub"
-                media_info["language"] = mediaStream["Language"]
+                media_info["language"] = covert_to_chinese(mediaStream["Language"])
                 media_info_list.append(media_info)
 
         item_details.media_streams = media_info_list
@@ -584,10 +584,10 @@ def add_gui_item(url, item_details, display_options, folder=True, default_sort=F
                     list_item.addStreamInfo('audio',
                                             {'codec': stream["codec"],
                                              'channels': stream["channels"],
-                                             'language': stream["language"]})
+                                             'language': covert_to_chinese(stream["language"])})
                 elif stream["type"] == "sub":
                     list_item.addStreamInfo('subtitle',
-                                            {'language': stream["language"]})
+                                            {'language': covert_to_chinese(stream["language"])})
 
         item_properties["TotalSeasons"] = str(item_details.total_seasons)
         item_properties["TotalEpisodes"] = str(item_details.total_episodes)

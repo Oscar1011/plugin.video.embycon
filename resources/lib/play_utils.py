@@ -12,7 +12,7 @@ import base64
 from .simple_logging import SimpleLogging
 from .downloadutils import DownloadUtils
 from .resume_dialog import ResumeDialog
-from .utils import PlayUtils, get_art, send_event_notification, convert_size
+from .utils import PlayUtils, get_art, send_event_notification, convert_size, covert_to_chinese
 from .kodi_utils import HomeWindow
 from .translation import string_load
 from .datamanager import DataManager, clear_old_cache_data
@@ -531,14 +531,14 @@ def __build_label2_from(source):
                                             video.get('BitDepth', '')))
     aud = []
     for audio in audios:
-        aud.append('{} {} {}'.format(audio.get('Language', ''),
+        aud.append('{} {} {}'.format(covert_to_chinese(audio.get('Language', '')),
                                      audio.get('Codec', ''),
                                      audio.get('Channels', '')))
     if len(aud) > 0:
         details.append(', '.join(aud).upper())
     subs = []
     for subtitle in subtitles:
-        subs.append(subtitle.get('Language', ''))
+        subs.append(covert_to_chinese(covert_to_chinese(subtitle.get('Language', ''))))
     if len(subs) > 0:
         details.append('S: {}'.format(', '.join(subs)).upper())
     return ' | '.join(details)
@@ -748,7 +748,7 @@ def audio_subs_pref(url, list_item, media_source, item_id, audio_stream_index, s
             channel_layout = stream.get('ChannelLayout', "")
 
             try:
-                track = "%s - %s - %s %s" % (index, stream['Language'], codec, channel_layout)
+                track = "%s - %s - %s %s" % (index, covert_to_chinese(stream['Language']), codec, channel_layout)
             except:
                 track = "%s - %s %s" % (index, codec, channel_layout)
 
@@ -757,7 +757,7 @@ def audio_subs_pref(url, list_item, media_source, item_id, audio_stream_index, s
 
         elif 'Subtitle' in stream['Type']:
             try:
-                track = "%s - %s" % (index, stream['Language'])
+                track = "%s - %s" % (index, covert_to_chinese(stream['Language']))
             except:
                 track = "%s - %s" % (index, stream['Codec'])
 
@@ -867,7 +867,7 @@ def external_subs(media_source, list_item, item_id):
             if stream['IsForced']:
                 forced = "forced"
 
-            sub_name = stream.get('Language', "n/a") + " (" + stream.get('Codec', "n/a") + ") " + default + " " + forced
+            sub_name = covert_to_chinese(stream.get('Language', "n/a")) + " (" + stream.get('Codec', "n/a") + ") " + default + " " + forced
 
             sub_names.append(sub_name)
             externalsubs.append(url)
